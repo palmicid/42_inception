@@ -12,19 +12,19 @@ pre:
 	sudo mkdir -p $(DB_DIR)/mariadb
 
 build: 
-	docker-compose -f srcs/docker-compose.yml up -d --build
+	docker compose -f ./srcs/docker-compose.yml up -d --build
 
 start:
-	docker-compose -f srcs/docker-compose.yml start
+	docker compose -f ./srcs/docker-compose.yml start
 
 stop:
-	docker-compose -f srcs/docker-compose.yml stop
+	docker compose -f ./srcs/docker-compose.yml stop
 
 down:
-	docker-compose -f srcs/docker-compose.yml down
+	docker compose -f ./srcs/docker-compose.yml down
 
 clean: down
-	@sudo rm -rf ${DB_DIR}
+	@sudo rm -rf $(DB_DIR)
 
 fclean: down clean
 	docker system prune -af --volumes

@@ -12,8 +12,8 @@ services:
       - inception
     volumes:
       - wp-websitefiles:/var/www/html
-    start: always
-  
+    restart: always
+
   mariadb:
     container_name: mariadb
     image: my_mariadb
