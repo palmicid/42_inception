@@ -1,7 +1,5 @@
 FROM alpine:3.17
 
-# COPY .conf/ dest
-
 RUN apk update && apk upgrade
 
 RUN apk add php81 \
@@ -18,27 +16,22 @@ RUN apk add php81 \
 	php81-phar \
 	wget
 
-
-# RUN wget https://wordpress.org/wordpress-6.3.2.tar.gz
-# 	tar -xpf wordpress-6.3.2.tar.gz && \
-# 	chown -R root:root wordpress && \
-# 	mkdir -p var/www && \
-# 	mv /wordpress /var/www/wordpress
-
-# 	rm -rf wordpress-6.3.2.tar.gz && \
+RUN mkdir -p /var/www/html
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 RUN chmod +x wp-cli.phar; \
 	mv wp-cli.phar /usr/local/bin/wp; \
 	wp cli update; \
-	wp core download --path=/var/www
+	wp core download --path=/var/www/html
 
-COPY conf/wp-config.php /var/www/.
+COPY conf/www.conf /etc/php81/php-fpm.d/.
 
-COPY conf/wp-setup.sh /var/www/.
+COPY conf/wp-config.php /var/www/html.
 
-WORKDIR /var/www
+COPY conf/wp-setup.sh /var/www/html
+
+WORKDIR /var/www/html
 
 RUN chmod +x wp-setup.sh
 

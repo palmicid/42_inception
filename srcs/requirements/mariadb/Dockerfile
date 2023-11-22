@@ -1,8 +1,5 @@
 FROM alpine:3.17
 
-# ARG MYSQL_ROOT_PASSWORD=admin1234 \
-# 	MYSQL_DATABASE=
-
 RUN apk update && apk upgrade
 
 RUN apk add mariadb mariadb-client mariadb-server-utils openrc
@@ -18,7 +15,7 @@ COPY tools/run.sh .
 
 RUN sh run.sh && rm run.sh
 
-USER mysql
+# USER mysql
 
 EXPOSE 3306
 

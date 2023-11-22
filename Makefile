@@ -8,24 +8,37 @@ all: pre build
 
 pre:
 	@echo "create dir"
-	# sudo mkdir -p $(DB_DIR)/wordpress
-	# sudo mkdir -p $(DB_DIR)/mariadb
+	sudo mkdir -p $(DB_DIR)/wordpress
+	sudo mkdir -p $(DB_DIR)/mariadb
 
-build:
-	docker-compose -f ./srcs/docker-compose.yml up -d --build
+build: 
+	docker-compose -f srcs/docker-compose.yml up -d --build
 
 start:
-	docker-compose -f ./srcs/docker-compose.yml start
+	docker-compose -f srcs/docker-compose.yml start
 
 stop:
-	docker-compose -f ./srcs/docker-compose.yml stop
+	docker-compose -f srcs/docker-compose.yml stop
 
 down:
-	docker-compose -f ./srcs/docker-compose.yml down
+	docker-compose -f srcs/docker-compose.yml down
 
-.phony: clearall
+clean: down
+	@sudo rm -rf ${DB_DIR}
+
+fclean: down clean
+	docker system prune -af --volumes
+	docker volume rm $$(docker volume ls -q)
+	docker network rm $$(docker network ls -q)
+
+re: fclean all
+
+.phony: all build start stop down rmall
 
 
+
+
+# TESTING PART
 
 rmall: dstop rm rmi rmvlo rmnet
 
@@ -55,20 +68,4 @@ rmvol:
 rmnet:
 	-docker network rm $$(docker networks ls -q) 2>/dev/null
 
-# for test
 
-word:
-	docker build srcs/requirements/wordpress/ -t my_wordpress
-	docker run --name wordp-tmp -it my_wordpress
-
-maria:
-	docker build srcs/requirements/mariadb/ -t my_mariadb
-	docker run --name wmariadb-tmp -it my_mariadb
-
-nginx:
-	docker build srcs/requirements/nginx/ -t tmp_nginx
-	docker run --name nginx-tmp -it -p 443:443 tmp_nginx
-
-rmtest:
-	docker rm nginx-tmp
-	docker rmi tmp_nginx

@@ -1,5 +1,5 @@
 
-#!/bin/bash/
+#!/bin/sh/
 
 if [ ! -d "/var/lib/mysql/mysql" ]; then
 	chown -R mysql:mysql /var/lib/mysql
@@ -34,4 +34,7 @@ EOF
 	# as we dont have rc-service install in the container, so manully run it
 	/usr/bin/mysqld --user=mysql --bootstrap < /tmp/create-db.sql
 	rm -f /tmp/create-db.sql
+
+# GRANT ALL ON . TO 'root'@'%' IDENTIFIED BY '${DB_ROOT}';FLUSH PRIVILEGES;" | mysql -uroot
+
 fi

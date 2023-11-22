@@ -12,7 +12,7 @@ services:
       - inception
     volumes:
       - wp-websitefiles:/var/www/html
-    # restart: always
+    start: always
   
   mariadb:
     container_name: mariadb
@@ -24,7 +24,7 @@ services:
       - inception
     volumes:
       - wp-database:/var/lib/mysql
-    # restart: always
+    restart: always
 
   wordpress:
     container_name: wordpress
@@ -38,12 +38,7 @@ services:
       - inception
     volumes:
       - wp-websitefiles:/var/www/html
-  #   # restart: always
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
+    restart: always
 
 
 volumes: 
@@ -63,9 +58,3 @@ volumes:
 networks:
   inception:
     driver: bridge
-
-
-
-# no need to set port 9000 and 3306 for mariadb and wordpress
-# coz it not communicate with the outside world 
-# asked google bard 
