@@ -13,10 +13,18 @@ RUN apt-get -y install mariadb-server
 
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/.
 
-COPY tools/init.sh .
+COPY tools/init.sh /usr/local/bin/.
+
+RUN chmod +x /usr/local/bin/init.sh
 
 EXPOSE 3306
 
-# # CMD ["/usr/bin/mysqld", "-uroot", "--skip-log-error"]
-CMD [ "tail", "-f", "/dev/null" ]
 # # CMD [ "/bin/bash"]
+
+ENTRYPOINT [ "bash", "/usr/local/bin/init.sh" ]
+
+# USER mysql
+
+CMD ["mysqld", "--bind-address=0.0.0.0"]
+
+# CMD [ "tail", "-f", "/dev/null" ]
