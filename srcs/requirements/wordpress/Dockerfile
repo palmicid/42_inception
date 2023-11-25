@@ -27,9 +27,9 @@ RUN chmod +x wp-cli.phar; \
 
 COPY conf/www.conf /etc/php81/php-fpm.d/.
 
-# COPY conf/wp-config.php /var/www/html/.
-
 COPY conf/wp-setup.sh /var/www/html
+
+EXPOSE 9000
 
 WORKDIR /var/www/html
 

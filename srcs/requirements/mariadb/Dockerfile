@@ -1,9 +1,3 @@
-# FROM alpine:3.17
-
-# RUN apk add mariadb mariadb-server-utils
-
-
-
 FROM debian:bullseye
 
 RUN apt-get update -y && apt-get upgrade -y
@@ -22,12 +16,10 @@ RUN chmod +x /usr/local/bin/init.sh
 
 EXPOSE 3306
 
-# # CMD [ "/bin/bash"]
-
 ENTRYPOINT [ "/usr/local/bin/init.sh" ]
 
 # USER mysql
 
-# CMD ["mysqld", "--bind-address=0.0.0.0", "-uroot"]
+CMD ["mysqld", "--bind-address=0.0.0.0", "-uroot"]
 
-CMD [ "tail", "-f", "/dev/null" ]
+# CMD [ "tail", "-f", "/dev/null" ]

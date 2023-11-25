@@ -26,10 +26,9 @@ echo "CREATE DATABASE IF NOT EXISTS $DB_NAME; GRANT ALL ON $DB_NAME.* TO '$DB_US
 
 fi
 
-echo "TEST-005"
+# echo "TEST-005"
 # sed -i "s|password =|password = $DB_ROOT|g" /etc/mysql/debian.cnf
-# /etc/init.d/mysql stop
-# /etc/init.d/mariadb stop
+/etc/init.d/mariadb stop
 # kill $(cat /var/run/mysqld/mysqld.pid)
-echo "TEST-006"
+# echo "TEST-006"
 exec "$@"
