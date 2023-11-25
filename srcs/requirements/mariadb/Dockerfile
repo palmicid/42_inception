@@ -1,25 +1,22 @@
-FROM alpine:3.17
+# FROM alpine:3.17
 
-RUN apk update && apk upgrade
+# RUN apk add mariadb mariadb-server-utils
 
-RUN apk add openrc
 
-RUN apk add mariadb mariadb-client mariadb-server-utils openrc
 
-RUN mkdir -p /var/run/mysqld; \
-	chmod 777 /var/run/mysqld
+FROM debian:bullseye
 
-COPY conf/* /ezshtc/my.cnf.d/
+RUN apt-get update -y && apt-get upgrade -y
 
-RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
+RUN apt-get -y install mariadb-server
+# mariadb-client
 
-COPY tools/run.sh .
+COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/.
 
-RUN sh run.sh
-
-# USER mysql
+COPY tools/init.sh .
 
 EXPOSE 3306
 
-CMD ["/usr/bin/mysqld", "-uroot", "--skip-log-error"]
-# CMD [ "tail", "-f", "/dev/null" ]
+# # CMD ["/usr/bin/mysqld", "-uroot", "--skip-log-error"]
+CMD [ "tail", "-f", "/dev/null" ]
+# # CMD [ "/bin/bash"]

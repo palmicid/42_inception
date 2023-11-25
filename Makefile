@@ -21,7 +21,7 @@ stop:
 	docker compose -f ./srcs/docker-compose.yml stop
 
 down:
-	docker compose -f ./srcs/docker-compose.yml down
+	docker compose -f ./srcs/docker-compose.yml down --remove-orphans
 
 clean: down
 	@sudo rm -rf $(DB_DIR)
